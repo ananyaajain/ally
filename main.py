@@ -12,24 +12,21 @@ import requests
 from scipy.io.wavfile import write
 from dotenv import load_dotenv
 from hume import HumeVoiceClient, MicrophoneInterface, VoiceSocket
+import json
 
-# Load environment variables
+
 load_dotenv()
 
-# Configure OpenAI API
 openai_api_key = os.getenv("OPENAI_API_KEY")
 openai.api_key = openai_api_key
 
-# Configure Hume API
 hume_api_key = os.getenv("HUME_API_KEY")
 hume_secret_key = os.getenv("HUME_SECRET_KEY")
 
 evi_config = os.getenv('EVI_CONFIG_ID')
 
-# Configure LMNT API
 lmnt_api_key = os.getenv("LMNT_API_KEY")
 
-# Audio recording settings
 fs = 44100
 duration = 5  # seconds
 q = queue.Queue()
@@ -133,6 +130,7 @@ def on_message(message):
             attendees = m["attendees"]
             st.write(end_time)
             meeting_book(summary, description, start_time, end_time, attendees)
+
         else: 
             m = message["parameters"]
             department_name= extract_dept(m)
